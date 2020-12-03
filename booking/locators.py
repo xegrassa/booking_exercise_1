@@ -35,4 +35,10 @@ class MainPageLocators:
     CHECK_PRICE_BUTTON = (By.XPATH, '//div[@class="xp__button"]')
 
 class SearchResultPageLocators:
-    pass
+    FORM_SEARCH_FILTER = (By.XPATH, '//form[@id="filterbox_wrap"]')
+    FILTERS = (By.XPATH, '//div[@class="filteroptions"]//span[contains(@class, "filter_label")]')
+    CITIES = (By.XPATH, '//div[@id="filter_uf"]//span[contains(@class,"filter_label")]')
+    HOTELS = (By.XPATH, '//div[@data-hotelid]')
+    HOTEL_NAME = (By.XPATH, './/span[contains(@class, "sr-hotel__name")]')
+    HOTEL_PRICE = (By.XPATH, './/div[contains(@class, "bui-price-display__value ")]')
+    HOTEL_SCORE = (By.XPATH, './/div[@class="bui-review-score__badge"]')

@@ -4,6 +4,7 @@ from selenium.common.exceptions import TimeoutException
 
 from booking.base_page import BasePage
 from booking.locators import MainPageLocators
+from booking.search_result_page import SearchResultPage
 
 
 class MainPage(BasePage):
@@ -30,6 +31,7 @@ class MainPage(BasePage):
 
     def click_check_price(self):
         self.find_element(MainPageLocators.CHECK_PRICE_BUTTON).click()
+        return SearchResultPage(self.driver)
 
     def select_date(self, date: str):
         certain_date = datetime.date.fromisoformat(date)
