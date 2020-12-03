@@ -29,23 +29,29 @@ def main():
     page.go_to_main_page()
     sleep(3)
     page.close_cookies()
+
     page.open_currency()
     page.click_to_RUB()
     sleep(1)
+
     page.open_language()
     page.click_to_language(args['country'])
     sleep(3)
+
     page.input_destination(args['destination'])
+
     page.open_calendar()
     page.select_date(args['date_in'])
     page.select_date(args['date_out'])
+
     page.open_guest_menu()
     page.select_guest(args['guest_count'])
+
     search_page = page.click_check_price()
+
     search_page.select_cities()
-    for filter in args['filters']:
-        search_page.select_filter(filter)
-        sleep(5)
+
+    search_page.select_filter(args['filters'])
     search_page.print_info_about_hotel()
 
     sleep(10)

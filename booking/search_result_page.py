@@ -11,6 +11,11 @@ class SearchResultPage(BasePage):
     filters: List[WebElement] = None
     hotels: List[WebElement] = None
 
+    def select_filters(self, needed_filters: List[str]):
+        for filter in needed_filters:
+            self.select_filter(filter)
+            sleep(5)
+
     def select_filter(self, needed_filter: str):
         self._get_filters()
         for filter in self.filters:
