@@ -10,8 +10,15 @@ class MainPageLocators:
         By.XPATH, '//a/div/div[contains(text(), "Российский рубль")] | //*[contains(text(), "Российский рубль")]')
 
     LANGUAGE_BUTTON = (By.XPATH, '//*[@data-title="Выберите язык"]')
+
     def SELECT_COUNTRY_LANGUAGE(country_abbreviation: str = 'ru'):
         return (By.XPATH, f'//li[@data-lang="{country_abbreviation}"]')
 
     CALENDAR_BUTTON = (By.XPATH, '//div[@class="xp__dates-inner"]')
-    MONTHS_CALENDAR = (By.XPATH, '//div[@class="bui-calendar__month"]')
+    MONTHS = (By.XPATH, '//div[@class="bui-calendar__wrapper"]')
+    MONTH_NAME = (By.XPATH, '//div[@class="bui-calendar__month"]')
+
+    def SELECT_CERTAIN_DATE(date: str):
+        return (By.XPATH, f'//td[@data-date="{date}"]')
+
+    NEXT_MONTH_BUTTON = (By.XPATH, '//div[@data-bui-ref="calendar-next"]')

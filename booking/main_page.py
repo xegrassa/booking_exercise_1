@@ -1,3 +1,7 @@
+import datetime
+
+from selenium.common.exceptions import TimeoutException
+
 from booking.base_page import BasePage
 from booking.locators import MainPageLocators
 
@@ -18,6 +22,15 @@ class MainPage(BasePage):
     def open_calendar(self):
         self.find_element(MainPageLocators.CALENDAR_BUTTON).click()
 
-    def get_months(self):
-        months = self.find_elements(MainPageLocators.MONTHS_CALENDAR)
-        return [month.text for month in months]
+    def select_date(self, date: str):
+        certain_date = datetime.date.fromisoformat(date)
+        locator = MainPageLocators.SELECT_CERTAIN_DATE(str(certain_date))
+        while True:
+            try:
+                self.find_element(locator).click()
+                break
+            except TimeoutException:
+                self._click_next_month()
+
+    def _click_next_month(self):
+        self.find_element(MainPageLocators.NEXT_MONTH_BUTTON).click()
