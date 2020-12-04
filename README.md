@@ -14,12 +14,18 @@
 ### (booking.ini)
 Присутствует файл конфигурации сценария
 
-[booking.com]
+#####[booking.com]
+
 country = ru  : Абревиатура языка страницы
+
 destination = Германия : Место назначения
+
 guest_count = 5 : Количество мест
+
 date_in = 2020-12-05 : Дата приезда (формат ISO: YYYY-MM-DD)
+
 date_out = 2020-12-15 : Дата отьезда (формат ISO: YYYY-MM-DD)
 
-[booking_filter]
+#####[booking_filter]
+
 filters = 1 звезда|Сауна|Без предоплаты : Фильтры (символ разделитель "|")
