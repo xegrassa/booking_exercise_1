@@ -22,8 +22,6 @@ def main():
     page.click_to_RUB()
     page.click_to_language(args['country'])
 
-    sleep(20)
-
     page.input_destination(args['destination'])
     page.open_calendar()
     page.select_date(args['date_in'])
