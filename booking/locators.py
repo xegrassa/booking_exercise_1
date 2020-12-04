@@ -8,7 +8,7 @@ class BasePageLocators:
 class HeaderLocators:
     CURRENCY_BUTTON = (
         By.XPATH, '//*[@data-tooltip-text="Выберите валюту"] | //*[@data-title="Выберите валюту"]')
-    SELECT_RUB_CURRENCY = (By.XPATH, '//*[contains(text(),"UAH")]')
+    SELECT_RUB_CURRENCY = (By.XPATH, '//li[contains(@class, "currency_RUB")] | //*[contains(@class,"bui-traveller-header__currency")][contains(text(),"RUB")]')
     LANGUAGE_BUTTON = (By.XPATH, '//*[@data-title="Выберите язык"] | //*[@data-modal-id="language-selection"]')
 
     def SELECT_COUNTRY_LANGUAGE(country_abbreviation: str = 'ru'):
