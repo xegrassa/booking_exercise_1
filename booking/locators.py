@@ -1,23 +1,24 @@
 from selenium.webdriver.common.by import By
 
 
-class MainPageLocators:
+class BasePageLocators:
     COOKIES_BUTTON_NO = (By.CSS_SELECTOR, '#onetrust-reject-all-handler')
 
+
+class HeaderLocators:
     CURRENCY_BUTTON = (
         By.XPATH, '//*[@data-tooltip-text="Выберите валюту"] | //*[@data-title="Выберите валюту"]')
     SELECT_RUB_CURRENCY = (
         By.XPATH, '//a/div/div[contains(text(), "Российский рубль")] | //*[contains(text(), "Российский рубль")]')
-
     LANGUAGE_BUTTON = (By.XPATH, '//*[@data-title="Выберите язык"]')
 
     def SELECT_COUNTRY_LANGUAGE(country_abbreviation: str = 'ru'):
         return (By.XPATH, f'//li[@data-lang="{country_abbreviation}"]')
 
+
+class MainPageLocators:
     DESTINATION_FIELD = (By.XPATH, '//input[@type="search"]')
     CALENDAR_BUTTON = (By.XPATH, '//div[@class="xp__dates-inner"]')
-    MONTHS = (By.XPATH, '//div[@class="bui-calendar__wrapper"]')
-    MONTH_NAME = (By.XPATH, '//div[@class="bui-calendar__month"]')
 
     def SELECT_CERTAIN_DATE(date: str):
         return (By.XPATH, f'//td[@data-date="{date}"]')
@@ -30,9 +31,11 @@ class MainPageLocators:
     DECREASE_GUEST_BUTTON = (By.XPATH,
                              '//div[@class="sb-group__field sb-group__field-adults"]/div/div[2]/button[@data-bui-ref="input-stepper-subtract-button"]')
     GUEST_COUNT = (
-    By.XPATH, '//div[@class="sb-group__field sb-group__field-adults"]/div/div[2]/span[@class="bui-stepper__display"]')
+        By.XPATH,
+        '//div[@class="sb-group__field sb-group__field-adults"]/div/div[2]/span[@class="bui-stepper__display"]')
 
     CHECK_PRICE_BUTTON = (By.XPATH, '//div[@class="xp__button"]')
+
 
 class SearchResultPageLocators:
     FORM_SEARCH_FILTER = (By.XPATH, '//form[@id="filterbox_wrap"]')

@@ -5,7 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from booking.locators import MainPageLocators
+from booking.locators import BasePageLocators
 
 
 class BasePage:
@@ -59,5 +59,5 @@ class BasePage:
         Закрывает всплываюшее уведомление о cookies-ах
         """
         button = WebDriverWait(self.driver, timeout=10).until(
-            EC.visibility_of_element_located(MainPageLocators.COOKIES_BUTTON_NO))
+            EC.visibility_of_element_located(BasePageLocators.COOKIES_BUTTON_NO))
         button.click()

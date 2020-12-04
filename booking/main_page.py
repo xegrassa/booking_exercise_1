@@ -3,23 +3,12 @@ import datetime
 from selenium.common.exceptions import TimeoutException
 
 from booking.base_page import BasePage
+from booking.header import Header
 from booking.locators import MainPageLocators
 from booking.search_result_page import SearchResultPage
 
 
-class MainPage(BasePage):
-    def open_currency(self):
-        self.find_element(MainPageLocators.CURRENCY_BUTTON).click()
-
-    def click_to_RUB(self):
-        self.find_element(MainPageLocators.SELECT_RUB_CURRENCY).click()
-
-    def open_language(self):
-        self.find_element(MainPageLocators.LANGUAGE_BUTTON).click()
-
-    def click_to_language(self, abbreviation: str = 'ru'):
-        self.find_element(MainPageLocators.SELECT_COUNTRY_LANGUAGE(abbreviation)).click()
-
+class MainPage(BasePage, Header):
     def open_calendar(self):
         self.find_element(MainPageLocators.CALENDAR_BUTTON).click()
 
