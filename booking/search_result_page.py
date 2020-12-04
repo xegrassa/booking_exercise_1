@@ -42,13 +42,13 @@ class SearchResultPage(BasePage):
                 return None
         print(f'Фильтр: {needed_filter} не найден')
 
-    def _get_filters(self):
+    def _get_filters(self) -> None:
         """
         Добавляет в атрибут обьекта фильтры доступные на странице
         """
         self.filters = self.find_elements(SearchResultPageLocators.FILTERS)
 
-    def _get_hotels(self):
+    def _get_hotels(self) -> None:
         """
         Добавляет в атрибут обьекта отели доступные на странице
         """

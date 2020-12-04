@@ -31,29 +31,21 @@ def main():
     page.close_cookies()
 
     page.click_to_RUB()
-    sleep(1)
-
     page.click_to_language(args['country'])
-    sleep(3)
-
     page.input_destination(args['destination'])
-
     page.open_calendar()
     page.select_date(args['date_in'])
     page.select_date(args['date_out'])
-
     page.open_guest_menu()
     page.select_guest(args['guest_count'])
 
     search_page = page.click_check_price()
-
     search_page.select_cities()
-
     search_page.select_filter(args['filters'])
     search_page.print_info_about_hotel()
 
     sleep(10)
-    page.close_browser()
+    search_page.close_browser()
     print('ALL OKEY')
 
 
