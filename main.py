@@ -1,28 +1,17 @@
-import configparser
 import os.path
 from time import sleep
 
 from selenium import webdriver
 
+from booking.help_function import parse_booking_config
 from booking.main_page import MainPage
 
 CHROME_DRIVER = os.path.join(os.getcwd(), 'webdrivers', 'chromedriver')
 CONFIG_PATH = 'booking.ini'
 
 
-def parse_booking_config() -> dict:
-    config = configparser.ConfigParser()
-    config.read(CONFIG_PATH, encoding='utf8')
-    return {'guest_count': config.getint('booking.com', 'guest_count'),
-            'date_in': config.get('booking.com', 'date_in'),
-            'date_out': config.get('booking.com', 'date_out'),
-            'country': config.get('booking.com', 'country'),
-            'destination': config.get('booking.com', 'destination'),
-            'filters': config.get('booking_filter', 'filters').replace('\n', '|').split("|")}
-
-
 def main():
-    args = parse_booking_config()
+    args = parse_booking_config(CONFIG_PATH)
 
     driver = webdriver.Chrome(CHROME_DRIVER)
     page = MainPage(driver=driver)
