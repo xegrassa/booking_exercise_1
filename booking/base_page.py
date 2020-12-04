@@ -42,19 +42,19 @@ class BasePage:
         elements = WebDriverWait(self.driver, timeout=timeout).until(EC.presence_of_all_elements_located(locator))
         return elements
 
-    def go_to_main_page(self):
+    def go_to_main_page(self) -> None:
         """
         Открывает главную страницу Booking
         """
         self.driver.get(self.url)
 
-    def close_browser(self):
+    def close_browser(self) -> None:
         """
         Закрывает браузер
         """
         self.driver.close()
 
-    def close_cookies(self):
+    def close_cookies(self) -> None:
         """
         Закрывает всплываюшее уведомление о cookies-ах
         """

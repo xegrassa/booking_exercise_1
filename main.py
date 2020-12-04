@@ -30,11 +30,9 @@ def main():
     sleep(3)
     page.close_cookies()
 
-    page.open_currency()
     page.click_to_RUB()
     sleep(1)
 
-    page.open_language()
     page.click_to_language(args['country'])
     sleep(3)
 
