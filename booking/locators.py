@@ -8,11 +8,13 @@ class BasePageLocators:
 class HeaderLocators:
     CURRENCY_BUTTON = (
         By.XPATH, '//*[@data-tooltip-text="Выберите валюту"] | //*[@data-title="Выберите валюту"]')
-    SELECT_RUB_CURRENCY = (By.XPATH, '//li[contains(@class, "currency_RUB")] | //*[contains(@class,"bui-traveller-header__currency")][contains(text(),"RUB")]')
+    SELECT_RUB_CURRENCY = (By.XPATH,
+                           '//li[contains(@class, "currency_RUB")] | //*[contains(@class,"bui-traveller-header__currency")][contains(text(),"RUB")]')
     LANGUAGE_BUTTON = (By.XPATH, '//*[@data-title="Выберите язык"] | //*[@data-modal-id="language-selection"]')
 
     def SELECT_COUNTRY_LANGUAGE(country_abbreviation: str = 'ru'):
-        return (By.XPATH, f'//li[@data-lang="{country_abbreviation}"] | //div[@lang="{country_abbreviation}"]')
+        return (By.XPATH,
+                f'//li[@data-lang="{country_abbreviation}"] | //div[@class="bui-modal__inner"]//div[@lang="{country_abbreviation}"]')
 
 
 class MainPageLocators:
