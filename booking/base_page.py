@@ -32,7 +32,7 @@ class BasePage:
         element = WebDriverWait(self.driver, timeout=timeout).until(EC.presence_of_element_located(locator))
         return element
 
-    def find_elements(self, locator, timeout: int = 5) -> List[WebElement]:
+    def find_elements(self, locator, timeout: int = 10) -> List[WebElement]:
         """
         Находит элементы с данным локатором
         :param locator: Локатор элемента вида: (By.XPATH, '//div')
@@ -61,3 +61,10 @@ class BasePage:
         button = WebDriverWait(self.driver, timeout=10).until(
             EC.visibility_of_element_located(BasePageLocators.COOKIES_BUTTON_NO))
         button.click()
+
+    def is_not_presence(self, locator) -> None:
+        """
+        Проверка что элемента нет в DOM
+        :param locator: Локатор этого элемента
+        """
+        WebDriverWait(self.driver, timeout=10).until_not(EC.presence_of_element_located(locator))

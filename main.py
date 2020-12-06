@@ -28,13 +28,12 @@ def main():
     page.select_date(args['date_out'])
     page.open_guest_menu()
     page.select_guest(args['guest_count'])
-
     search_page = page.click_check_price()
-    search_page.select_cities()
-    search_page.select_filter(args['filters'])
-    search_page.print_info_about_hotel()
 
-    sleep(10)
+    search_page.select_cities()
+    search_page.wait_spinner()
+    search_page.select_filters(args['filters'])
+    search_page.print_info_about_hotel()
     search_page.close_browser()
     print('ALL OKEY')
 

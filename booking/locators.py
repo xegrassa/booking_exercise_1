@@ -39,9 +39,14 @@ class MainPageLocators:
 
 
 class SearchResultPageLocators:
-    FORM_SEARCH_FILTER = (By.XPATH, '//form[@id="filterbox_wrap"]')
     FILTERS = (By.XPATH, '//div[@class="filteroptions"]//span[contains(@class, "filter_label")]')
-    CITIES = (By.XPATH, '//div[@id="filter_uf"]//span[contains(@class,"filter_label")]')
+
+    CITIES = (By.XPATH, '//div[@id="filter_uf"]/div[@class="filteroptions"]')
+    CITY = (By.XPATH, './/a')
+    MORE_BUTTON = (By.XPATH, '//div[@id="filter_uf"]//button[contains(@class, "more")]')
+    SPINER = (By.XPATH, '//div[contains(@class,"sr-usp-overlay__container")]')
+
+
     HOTELS = (By.XPATH, '//div[@data-hotelid]')
     HOTEL_NAME = (By.XPATH, './/span[contains(@class, "sr-hotel__name")]')
     HOTEL_PRICE = (By.XPATH, './/div[contains(@class, "bui-price-display__value ")]')

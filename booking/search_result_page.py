@@ -1,7 +1,9 @@
-from time import sleep
 from typing import List
 
+from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from booking.base_page import BasePage
 from booking.locators import SearchResultPageLocators
@@ -17,30 +19,32 @@ class SearchResultPage(BasePage):
     """
     filters: List[WebElement] = None
     hotels: List[WebElement] = None
+    cities: WebElement = None
 
-    def select_filters(self, needed_filters: List[str]) -> None:
+    def select_filters(self, filters_name: List[str]) -> None:
         """
         На странице выбирает фильтры
-        :param needed_filters: фильтры которые надо найти и включить
+        :param filters_name: фильтры которые надо найти и включить
         :return: None
         """
-        for filter in needed_filters:
-            self.select_filter(filter)
-            sleep(5)
+        for filter_name in filters_name:
+            if self.select_filter(filter_name):
+                self.wait_spinner()
 
-    def select_filter(self, needed_filter: str) -> None:
+    def select_filter(self, needed_filter: str) -> bool:
         """
         На странице выбирает фильтр
         :param needed_filter: фильтр который надо найти и включить
         :return: None
         """
         self._get_filters()
-        for filter in self.filters:
-            if needed_filter in filter.text:
-                filter.click()
+        for filter_element in self.filters:
+            if needed_filter in filter_element.text:
+                filter_element.click()
                 print(f'Фильтр: {needed_filter} включен')
-                return None
+                return True
         print(f'Фильтр: {needed_filter} не найден')
+        return False
 
     def _get_filters(self) -> None:
         """
@@ -63,18 +67,36 @@ class SearchResultPage(BasePage):
         for hotel in self.hotels[:count_hotel]:
             print(hotel.find_element(*SearchResultPageLocators.HOTEL_NAME).text)
             print(hotel.find_element(*SearchResultPageLocators.HOTEL_PRICE).text)
-            print(hotel.find_element(*SearchResultPageLocators.HOTEL_SCORE).text)
+            try:
+                print(hotel.find_element(*SearchResultPageLocators.HOTEL_SCORE).text)
+            except NoSuchElementException:
+                print("У Отеля нет оценки (недавно добавленный)")
             print('----------------------')
 
-    def select_cities(self) -> None:
+    def select_cities(self, select_count: int = 20) -> None:
         """
         Выбирает в фильтре о городах первые 20 штук
         """
-        for position in range(20):
-            cities = self.find_elements(SearchResultPageLocators.CITIES)
+        self._get_cities()
+        elements = self.cities.find_elements(*SearchResultPageLocators.CITY)
+        for element in elements[:select_count]:
             try:
-                cities[position].click()
-            except IndexError:
-                print('Столько городов нет')
-                break
-            sleep(8)
+                element = WebDriverWait(self.driver, 10).until(EC.visibility_of(element))
+                element.click()
+            except ElementNotInteractableException:
+                print(element.text, 'Был недоступен и нажали его скриптом JS')
+                self.driver.execute_script("arguments[0].click();", element)
+
+    def _get_cities(self) -> None:
+        """
+        Находит элемент с Городами и записывает в атрибут класса
+        """
+        self.find_element(SearchResultPageLocators.MORE_BUTTON).click()
+        self.cities = self.find_element(SearchResultPageLocators.CITIES)
+
+    def wait_spinner(self):
+        """
+        Ожидание конца спинера, при выборе фильтров
+        """
+        self.find_element(SearchResultPageLocators.SPINER)
+        self.is_not_presence(SearchResultPageLocators.SPINER)
