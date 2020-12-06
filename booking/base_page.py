@@ -22,7 +22,21 @@ class BasePage:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
 
-    def find_element(self, locator, timeout: int = 5) -> WebElement:
+    def close_browser(self) -> None:
+        """
+        Закрывает браузер
+        """
+        self.driver.close()
+
+    def close_cookies(self) -> None:
+        """
+        Закрывает всплываюшее уведомление о cookies-ах
+        """
+        button = WebDriverWait(self.driver, timeout=10).until(
+            EC.visibility_of_element_located(BasePageLocators.COOKIES_BUTTON_NO))
+        button.click()
+
+    def find_element(self, locator: tuple, timeout: int = 5) -> WebElement:
         """
         Находит элемент с данным локатором
         :param locator: Локатор элемента вида: (By.XPATH, '//div')
@@ -32,7 +46,7 @@ class BasePage:
         element = WebDriverWait(self.driver, timeout=timeout).until(EC.presence_of_element_located(locator))
         return element
 
-    def find_elements(self, locator, timeout: int = 10) -> List[WebElement]:
+    def find_elements(self, locator: tuple, timeout: int = 10) -> List[WebElement]:
         """
         Находит элементы с данным локатором
         :param locator: Локатор элемента вида: (By.XPATH, '//div')
@@ -48,23 +62,12 @@ class BasePage:
         """
         self.driver.get(self.url)
 
-    def close_browser(self) -> None:
-        """
-        Закрывает браузер
-        """
-        self.driver.close()
-
-    def close_cookies(self) -> None:
-        """
-        Закрывает всплываюшее уведомление о cookies-ах
-        """
-        button = WebDriverWait(self.driver, timeout=10).until(
-            EC.visibility_of_element_located(BasePageLocators.COOKIES_BUTTON_NO))
-        button.click()
-
-    def is_not_presence(self, locator) -> None:
+    def is_not_presence(self, locator: tuple) -> None:
         """
         Проверка что элемента нет в DOM
         :param locator: Локатор этого элемента
         """
         WebDriverWait(self.driver, timeout=10).until_not(EC.presence_of_element_located(locator))
+
+    def visibility_of(self, element: WebElement) -> WebElement:
+        return WebDriverWait(self.driver, 10).until(EC.visibility_of(element))

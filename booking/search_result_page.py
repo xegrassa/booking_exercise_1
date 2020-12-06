@@ -2,8 +2,6 @@ from typing import List
 
 from selenium.common.exceptions import ElementNotInteractableException, NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 from booking.base_page import BasePage
 from booking.locators import SearchResultPageLocators
@@ -21,15 +19,18 @@ class SearchResultPage(BasePage):
     hotels: List[WebElement] = None
     cities: WebElement = None
 
-    def select_filters(self, filters_name: List[str]) -> None:
+    def select_cities(self, select_count: int = 20) -> None:
         """
-        На странице выбирает фильтры
-        :param filters_name: фильтры которые надо найти и включить
-        :return: None
+        Выбирает в фильтре о городах первые 20 штук
         """
-        for filter_name in filters_name:
-            if self.select_filter(filter_name):
-                self.wait_spinner()
+        self._get_cities()
+        elements = self.cities.find_elements(*SearchResultPageLocators.CITY)
+        for element in elements[:select_count]:
+            try:
+                self.visibility_of(element).click()
+            except ElementNotInteractableException:
+                print(element.text.split()[0], 'Был недоступен и нажали его скриптом JS')
+                self.driver.execute_script("arguments[0].click();", element)
 
     def select_filter(self, needed_filter: str) -> bool:
         """
@@ -46,17 +47,15 @@ class SearchResultPage(BasePage):
         print(f'Фильтр: {needed_filter} не найден')
         return False
 
-    def _get_filters(self) -> None:
+    def select_filters(self, filters_name: List[str]) -> None:
         """
-        Добавляет в атрибут обьекта фильтры доступные на странице
+        На странице выбирает фильтры
+        :param filters_name: фильтры которые надо найти и включить
+        :return: None
         """
-        self.filters = self.find_elements(SearchResultPageLocators.FILTERS)
-
-    def _get_hotels(self) -> None:
-        """
-        Добавляет в атрибут обьекта отели доступные на странице
-        """
-        self.hotels = self.find_elements(SearchResultPageLocators.HOTELS)
+        for filter_name in filters_name:
+            if self.select_filter(filter_name):
+                self.wait_spinner()
 
     def print_info_about_hotel(self, count_hotel: int = 10) -> None:
         """
@@ -73,19 +72,12 @@ class SearchResultPage(BasePage):
                 print("У Отеля нет оценки (недавно добавленный)")
             print('----------------------')
 
-    def select_cities(self, select_count: int = 20) -> None:
+    def wait_spinner(self) -> None:
         """
-        Выбирает в фильтре о городах первые 20 штук
+        Ожидание конца спинера, при выборе фильтров
         """
-        self._get_cities()
-        elements = self.cities.find_elements(*SearchResultPageLocators.CITY)
-        for element in elements[:select_count]:
-            try:
-                element = WebDriverWait(self.driver, 10).until(EC.visibility_of(element))
-                element.click()
-            except ElementNotInteractableException:
-                print(element.text, 'Был недоступен и нажали его скриптом JS')
-                self.driver.execute_script("arguments[0].click();", element)
+        self.find_element(SearchResultPageLocators.SPINER)
+        self.is_not_presence(SearchResultPageLocators.SPINER)
 
     def _get_cities(self) -> None:
         """
@@ -94,9 +86,14 @@ class SearchResultPage(BasePage):
         self.find_element(SearchResultPageLocators.MORE_BUTTON).click()
         self.cities = self.find_element(SearchResultPageLocators.CITIES)
 
-    def wait_spinner(self):
+    def _get_filters(self) -> None:
         """
-        Ожидание конца спинера, при выборе фильтров
+        Добавляет в атрибут обьекта фильтры доступные на странице
         """
-        self.find_element(SearchResultPageLocators.SPINER)
-        self.is_not_presence(SearchResultPageLocators.SPINER)
+        self.filters = self.find_elements(SearchResultPageLocators.FILTERS)
+
+    def _get_hotels(self) -> None:
+        """
+        Добавляет в атрибут обьекта отели доступные на странице
+        """
+        self.hotels = self.find_elements(SearchResultPageLocators.HOTELS)

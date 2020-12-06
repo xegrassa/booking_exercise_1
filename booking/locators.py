@@ -46,7 +46,6 @@ class SearchResultPageLocators:
     MORE_BUTTON = (By.XPATH, '//div[@id="filter_uf"]//button[contains(@class, "more")]')
     SPINER = (By.XPATH, '//div[contains(@class,"sr-usp-overlay__container")]')
 
-
     HOTELS = (By.XPATH, '//div[@data-hotelid]')
     HOTEL_NAME = (By.XPATH, './/span[contains(@class, "sr-hotel__name")]')
     HOTEL_PRICE = (By.XPATH, './/div[contains(@class, "bui-price-display__value ")]')

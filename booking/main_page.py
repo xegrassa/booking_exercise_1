@@ -13,6 +13,21 @@ class MainPage(Header):
     Класс представляет собой главную страницу
     """
 
+    def click_check_price(self) -> SearchResultPage:
+        """
+        Нажимает кнопку проверить цену
+        :return: страницу с найденными выриантами
+        """
+        self.find_element(MainPageLocators.CHECK_PRICE_BUTTON).click()
+        return SearchResultPage(self.driver)
+
+    def input_destination(self, destination: str) -> None:
+        """
+        Вводит в поле место поездки город/страну назначения
+        :param destination: город/страна назначения
+        """
+        self.find_element(MainPageLocators.DESTINATION_FIELD).send_keys(destination)
+
     def open_calendar(self) -> None:
         """
         Открыть таблицу дат путешествия
@@ -24,21 +39,6 @@ class MainPage(Header):
         Открыть таблицу количества посетителей
         """
         self.find_element(MainPageLocators.GUEST_MENU).click()
-
-    def input_destination(self, destination: str) -> None:
-        """
-        Вводит в поле место поездки город/страну назначения
-        :param destination: город/страна назначения
-        """
-        self.find_element(MainPageLocators.DESTINATION_FIELD).send_keys(destination)
-
-    def click_check_price(self) -> SearchResultPage:
-        """
-        Нажимает кнопку проверить цену
-        :return: страницу с найденными выриантами
-        """
-        self.find_element(MainPageLocators.CHECK_PRICE_BUTTON).click()
-        return SearchResultPage(self.driver)
 
     def select_date(self, date: str) -> None:
         """
@@ -54,12 +54,6 @@ class MainPage(Header):
             except TimeoutException:
                 self._click_next_month()
 
-    def _click_next_month(self) -> None:
-        """
-        При открытой таблице календаря нажимает кнопку следующего месяца
-        """
-        self.find_element(MainPageLocators.NEXT_MONTH_BUTTON).click()
-
     def select_guest(self, need_guest: int) -> None:
         """
         Выбирает нужное количество гостей
@@ -73,17 +67,23 @@ class MainPage(Header):
             else:
                 self._decrease_guest()
 
-    def _decrease_guest(self) -> None:
-        """
-        При открытой таблице гостей нажимает кнопку уменьшения
-        """
-        self.find_element(MainPageLocators.DECREASE_GUEST_BUTTON).click()
-
     def _add_guest(self) -> None:
         """
         При открытой таблице гостей нажимает кнопку увеличения
         """
         self.find_element(MainPageLocators.ADD_GUEST_BUTTON).click()
+
+    def _click_next_month(self) -> None:
+        """
+        При открытой таблице календаря нажимает кнопку следующего месяца
+        """
+        self.find_element(MainPageLocators.NEXT_MONTH_BUTTON).click()
+
+    def _decrease_guest(self) -> None:
+        """
+        При открытой таблице гостей нажимает кнопку уменьшения
+        """
+        self.find_element(MainPageLocators.DECREASE_GUEST_BUTTON).click()
 
     def _get_guest_count(self) -> int:
         """
